@@ -1,0 +1,19 @@
+<ul class="linkcategorylist">
+  {% for category in categories %}
+  <li class="linkcategory">
+    <h2>{{ category.name }}</h2>
+    <ul class="linklist">
+      {% for link in category.links %}
+      <li>
+        <a href="{{ link.url }}">
+          <span class="linkname">{{ link.name }}</span>
+          {% if link.description %}
+          <span class="linkdescription"> - {{ link.description }}</span>
+          {% endif %}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </li>
+  {% endfor %}
+</ul>
