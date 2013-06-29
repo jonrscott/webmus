@@ -5,10 +5,10 @@ from django.conf import settings
 
 from ..contact.forms import ContactForm
 
-from musweb.lib import render_to_pdf
-from musweb.apps.links.models import LinkCategory
-from musweb.apps.musicdata.models import Album
-from musweb.apps.media.models import MediaVideo
+from webmus.lib import render_to_pdf
+from webmus.apps.links.models import LinkCategory
+from webmus.apps.musicdata.models import Album
+from webmus.apps.media.models import MediaVideo
 
 
 def page_view(request, page, context={}):
@@ -57,7 +57,7 @@ def links_view(request):
 
 
 def discography_view(request):
-    from musweb.apps.musicdata.helpers import get_albums_by_year
+    from webmus.apps.musicdata.helpers import get_albums_by_year
     return page_view(request, 'discography', context={
         'albums': get_albums_by_year(),
     })
@@ -68,7 +68,7 @@ def media_view(request):
     })
 
 def live_view(request):
-    from musweb.apps.gigs.helpers import get_gigs_by_month
+    from webmus.apps.gigs.helpers import get_gigs_by_month
     return page_view(request, 'live', context={
         'gigs': get_gigs_by_month()
     })

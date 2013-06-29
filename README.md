@@ -1,4 +1,4 @@
 webmus
 ======
 
-Common library for music websites
+Common libs for music website bits
