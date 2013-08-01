@@ -1,19 +1,32 @@
+from importlib import import_module
+
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext, TemplateDoesNotExist
-from django import forms, http
+from django import http
 from django.conf import settings
 
 from ..contact.forms import ContactForm
 
 from webmus.lib import render_to_pdf
 from webmus.apps.links.models import LinkCategory
-from webmus.apps.musicdata.models import Album
 from webmus.apps.media.models import MediaVideo
 
 
 def page_view(request, page, context={}):
     template = 'page/%s.html' % page
     context['page_slug'] = page
+
+    extra_context = getattr(settings, 'WEBMUS_PAGE_CONTEXT', {}).get(
+        page, [])
+    if isinstance(extra_context, dict):
+        for key, val in extra_context.iteritems():
+            if isinstance(val, basestring) and val.endswith('()'):
+                module, fn = val[:-2].rsplit('.', 1)
+                module = import_module(module)
+                val = getattr(module, fn)
+            if callable(val):
+                val = val()
+            context[key] = val
     try:
         return render_to_response(
             template, context,
@@ -28,12 +41,11 @@ def page_pdf_view(request, page, context={}):
     try:
         return render_to_pdf(
             template, {
-                'pagesize':'A4',
+                'pagesize': 'A4',
             }
         )
     except TemplateDoesNotExist:
         raise http.Http404()
-
 
 
 def contact_view(request):
@@ -62,16 +74,19 @@ def discography_view(request):
         'albums': get_albums_by_year(),
     })
 
+
 def media_view(request):
     return page_view(request, 'media', context={
         'videos': MediaVideo.objects.all()
     })
+
 
 def live_view(request):
     from webmus.apps.gigs.helpers import get_gigs_by_month
     return page_view(request, 'live', context={
         'gigs': get_gigs_by_month()
     })
+
 
 def project_view(request, project=None, context={}):
     projects = settings.PROJECTS
@@ -85,9 +100,9 @@ def project_view(request, project=None, context={}):
         raise http.Http404("Project '%s' not found" % project)
     template = 'projects/%s.html' % project
     context.update(
-        page_slug = 'projects',
-        project = projects_dict[project],
-        projects = projects
+        page_slug='projects',
+        project=projects_dict[project],
+        projects=projects
     )
     try:
         return render_to_response(

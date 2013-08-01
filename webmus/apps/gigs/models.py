@@ -6,9 +6,9 @@ from ..musicdata.models import Artist, Venue
 
 class Gig(models.Model):
     start_date = models.DateField()
-    start_time = models.TimeField(blank=True)
-    end_date = models.DateField(blank=True)
-    end_time = models.TimeField(blank=True)
+    start_time = models.TimeField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    end_time = models.TimeField(blank=True, null=True)
     artist = models.ForeignKey(Artist, blank=True, null=True)
     venue = models.ForeignKey(Venue)
     title = models.CharField(max_length=100, blank=True)
