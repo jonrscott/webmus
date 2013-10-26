@@ -20,3 +20,13 @@ class UploadedFile(models.Model):
         if self.tag:
             return "%s/%s" % (self.tag.name, self.filename)
         return self.filename
+
+    @property
+    def display_name(self):
+        if self.description:
+            return self.description
+        return self.filename
+
+    @property
+    def url(self):
+        return self.data.url

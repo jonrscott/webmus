@@ -20,12 +20,14 @@ def page_view(request, page, context={}):
         page, [])
     if isinstance(extra_context, dict):
         for key, val in extra_context.iteritems():
-            if isinstance(val, basestring) and val.endswith('()'):
-                module, fn = val[:-2].rsplit('.', 1)
+            if isinstance(val, basestring) and val.endswith(')'):
+                base, args = val[:-1].rsplit('(', 1)
+                args = [x.strip() for x in args.split(',') if len(x.strip())]
+                module, fn = base.rsplit('.', 1)
                 module = import_module(module)
                 val = getattr(module, fn)
             if callable(val):
-                val = val()
+                val = val(*args)
             context[key] = val
     try:
         return render_to_response(
