@@ -23,15 +23,19 @@ class MediaItem(models.Model):
 
 
 class MediaVideo(MediaItem):
+    URL_BASE = 'http://www.youtube.com'
+
     youtube_key = models.CharField(max_length=50)
 
     @property
     def url(self):
-        return 'http://www.youtube.com/v/%s?fs=1&amp;hl=en_US&amp;rel=0' % self.youtube_key
-    
+        return '%s/v/%s?fs=1&amp;hl=en_US&amp;rel=0' % (
+            self.URL_BASE, self.youtube_key)
+
     @property
     def embed_url(self):
-        return 'http://www.youtube.com/embed/%s?showinfo=0&modestbranding=1' % self.youtube_key
+        return '%s/embed/%s?showinfo=0&modestbranding=1' % (
+            self.URL_BASE, self.youtube_key)
 
     @property
     def thumbnail_url(self):
