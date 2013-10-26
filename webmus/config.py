@@ -25,12 +25,12 @@
 #
 #    'sorl.thumbnail',
 #
-#    'webmus.apps.base',
-#    'webmus.apps.contact',
-#    'webmus.apps.links',
-#    'webmus.apps.musicdata',
-#    'webmus.apps.media',
-#    'webmus.apps.gigs',
+#    'webmus.base',
+#    'webmus.contact',
+#    'webmus.links',
+#    'webmus.musicdata',
+#    'webmus.media',
+#    'webmus.gigs',
 #)
 
 THUMBNAIL_SIZES = {
