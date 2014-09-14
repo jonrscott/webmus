@@ -4,17 +4,45 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext, TemplateDoesNotExist
 from django import http
 from django.conf import settings
+from django.core.paginator import (
+    Paginator,
+    EmptyPage,
+    PageNotAnInteger,
+)
 
 from ..contact.forms import ContactForm
 
-from webmus.lib import render_to_pdf
+#from webmus.lib import render_to_pdf
+from webmus.cms.models import Page
 from webmus.links.models import LinkCategory
 from webmus.media.models import MediaVideo
 
 
-def page_view(request, page, context={}):
-    template = 'page/%s.html' % page
+def page_view(request, page, context=None):
+    context = context or {}
+    templates = ['page/%s.html' % page,
+                 'webmus/%s/default.html' % page]
     context['page_slug'] = page
+
+    try:
+        page_obj = Page.objects.get(slug=page)
+        context['page_obj'] = page_obj
+        templates.append('webmus/cms/managed_page.html')
+
+        if page_obj.articles.count() > 0:
+            paginator = Paginator(
+                page_obj.articles.all(), page_obj.max_articles or 5)
+            page = request.GET.get('page')
+
+            try:
+                articles = paginator.page(page)
+            except PageNotAnInteger:
+                articles = paginator.page(1)
+            except EmptyPage:
+                articles = paginator.page(paginator.num_pages)
+            context['articles'] = articles
+    except Page.DoesNotExist:
+        pass
 
     extra_context = getattr(settings, 'WEBMUS_PAGE_CONTEXT', {}).get(
         page, [])
@@ -31,23 +59,25 @@ def page_view(request, page, context={}):
             context[key] = val
     try:
         return render_to_response(
-            template, context,
+            templates, context,
             context_instance=RequestContext(request)
         )
     except TemplateDoesNotExist:
         raise http.Http404()
 
 
-def page_pdf_view(request, page, context={}):
-    template = 'page/%s.html' % page
-    try:
-        return render_to_pdf(
-            template, {
-                'pagesize': 'A4',
-            }
-        )
-    except TemplateDoesNotExist:
-        raise http.Http404()
+def page_pdf_view(request, page, context=None):
+    pass
+    #context = context or {}
+    #template = 'page/%s.html' % page
+    #try:
+    #    return render_to_pdf(
+    #        template, {
+    #            'pagesize': 'A4',
+    #        }
+    #    )
+    #except TemplateDoesNotExist:
+    #    raise http.Http404()
 
 
 def contact_view(request):

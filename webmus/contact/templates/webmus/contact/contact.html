@@ -1,0 +1,14 @@
+<div class="section" id="contactform">
+  <div class="innercontent">
+    {% if contact_form %}
+    <form method="POST" class="contact-form" action="{% url 'base_contact' %}">{% csrf_token %}
+      <ul>
+        {{ contact_form.as_ul }}
+      </ul>
+      <input type="submit" name="contact_submit" value="Send">
+    </form>
+    {% else %}
+    <p>Your message has been sent.</p>
+    {% endif %}
+  </div>
+</div>
