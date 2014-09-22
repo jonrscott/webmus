@@ -1,5 +1,7 @@
 from django.db import models
 
+from .helpers import get_processed_content
+
 
 class BaseArticle(models.Model):
     slug = models.SlugField(db_index=True)
@@ -14,6 +16,13 @@ class BaseArticle(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    @property
+    def processed_content(self):
+        return self.get_processed_content()
+
+    def get_processed_content(self):
+        return get_processed_content(self.content)
 
 
 class Page(BaseArticle):

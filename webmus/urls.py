@@ -1,11 +1,12 @@
 from django.conf import settings
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns(
     '',
     url(r'^files/(?P<path>.*)$',
         'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT}),
+    url(r'^summernote/', include('django_summernote.urls')),
     url(r'^$',
         'webmus.base.views.page_view',
         { 'page': 'home' },

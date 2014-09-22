@@ -42,5 +42,7 @@ SUMMERNOTE_CONFIG = {
         ['para', ['ul', 'ol']],
         ['insert', ['link', 'table']],
         ['insert', ['picture', 'video']],
+        ['misc', ['undo', 'redo']],
+        ['misc', ['codeview']],
     ],
 }

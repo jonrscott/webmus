@@ -10,7 +10,6 @@ def config(request):
             menu_items.append(dict(page, slug=slug))
     menu_items.sort(key=lambda x: x['menu_order'])
     result['menu_items'] = menu_items
-    print "setting webmus to", result
     return {'webmus': result}
 
 
