@@ -3,7 +3,6 @@ from bs4.element import NavigableString
 
 
 def _wrap_things(soup, start, end, number):
-    print "wrap_things", start, 'and', end
     assert(start.parent == end.parent)
     wrapper = soup.new_tag(
         'div', **{'class': ['section'], 'id': 'section%d' % number})
@@ -41,16 +40,42 @@ def next_not_string(node):
     return result
 
 
-def get_processed_content(content):
-    soup = BeautifulSoup(content.replace('&nbsp;', ''))
-    body = soup.body
+def preprocess_html(fn):
+    """
+    Decorator to remove unwanted bits from html raw string.
+    """
+    def wrapped(html):
+        return fn(html.replace('&nbsp;', ''))
+    return wrapped
 
+
+def html_fragment_processor(fn):
+    """
+    Decorator to use BeautifulSoup to process just a bit of html.
+    """
+    def wrapped(html):
+        soup = BeautifulSoup(html)
+        body = fn(soup, soup.body)
+        return "\n".join(body.prettify().split('\n')[1:-1])
+    return wrapped
+
+
+@preprocess_html
+@html_fragment_processor
+def simplify_html(soup, body):
+    """
+    Cleanup dodgy Summernote HTML.
+    Some day Summernote will do this already"""
+
+    # no weird spans
     for span in body.find_all('span'):
         span.replace_with_children()
 
+    # no <br>s
     for br in body.find_all('br'):
         br.extract()
 
+    # no empty paras
     for p in body.find_all('p'):
         for thing in p.contents:
             if isinstance(thing, NavigableString) and thing.strip() == '':
@@ -58,6 +83,35 @@ def get_processed_content(content):
         if len(p.contents) == 0:
             p.extract()
 
+    # no inline styles!
+    for el in body.find_all():
+        if 'style' in el.attrs:
+            del el.attrs['style']
+
+    return body
+
+
+@html_fragment_processor
+def create_implied_sections(soup, body):
+    """
+    If a paragraph exists on its own containing just '---', then use that
+    as a section marker, and jemmy the bits around it into
+    <div class="section"> containers.
+
+    So:
+    <p>Blah</p>
+    <p>---</p>
+    <p>MoreBlah</p>
+
+    becomes
+
+    <div class="section section1">
+    <p>Blah</p>
+    </div>
+    <div class="section section2">
+    <p>MoreBlah</p>
+    </div>
+    """
     wrapped_start, wrapped_end = None, None
     next_section_number = 1
     wrapped_yet = False
@@ -104,15 +158,4 @@ def get_processed_content(content):
             body.append(
                 soup.new_tag('div', **{'class': 'section', 'id': 'section1'}))
 
-    return "\n".join(body.prettify().split('\n')[1:-1])
-
-
-if __name__ == '__main__':
-    html1 = """
-<p>Section 1</p>
-<p>---</p>
-<p><br /> &nbsp;</p>
-<p><span class="rae">Section 2</span></p>
-"""
-
-    print get_processed_content(html1)
+    return body

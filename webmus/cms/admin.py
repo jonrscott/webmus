@@ -4,11 +4,15 @@ from django_summernote.admin import SummernoteModelAdmin
 from .models import Page, Article
 
 
-class PageAdmin(SummernoteModelAdmin):
+class BaseArticleAdmin(SummernoteModelAdmin):
+    exclude = ('processed_content',)
+
+
+class PageAdmin(BaseArticleAdmin):
     pass
 
 
-class ArticleAdmin(SummernoteModelAdmin):
+class ArticleAdmin(BaseArticleAdmin):
     pass
 
 

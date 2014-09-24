@@ -1,6 +1,9 @@
 from django.db import models
 
-from .helpers import get_processed_content
+from .helpers import (
+    simplify_html,
+    create_implied_sections,
+)
 
 
 class BaseArticle(models.Model):
@@ -8,6 +11,7 @@ class BaseArticle(models.Model):
     title = models.CharField(max_length=100)
     image = models.ImageField(null=True, blank=True)
     content = models.TextField(blank=True)
+    processed_content = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -17,12 +21,10 @@ class BaseArticle(models.Model):
     def __unicode__(self):
         return self.title
 
-    @property
-    def processed_content(self):
-        return self.get_processed_content()
-
-    def get_processed_content(self):
-        return get_processed_content(self.content)
+    def save(self, *args, **kwargs):
+        self.content = simplify_html(self.content)
+        self.processed_content = create_implied_sections(self.content)
+        super(BaseArticle, self).save(*args, **kwargs)
 
 
 class Page(BaseArticle):

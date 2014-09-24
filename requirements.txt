@@ -3,3 +3,5 @@ pisa
 html5lib
 PIL
 sorl-thumbnail
+beautifulsoup4
+django-summernote

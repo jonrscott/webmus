@@ -45,4 +45,6 @@ SUMMERNOTE_CONFIG = {
         ['misc', ['undo', 'redo']],
         ['misc', ['codeview']],
     ],
+    'styleWithSpan': False,
+    'disableDragAndDrop': True,
 }
