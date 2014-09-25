@@ -1,7 +1,7 @@
 reportlab
 pisa
 html5lib
-PIL
+pillow
 sorl-thumbnail
 beautifulsoup4
 django-summernote
