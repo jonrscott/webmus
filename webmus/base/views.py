@@ -31,7 +31,8 @@ def page_view(request, page, context=None):
 
         if page_obj.articles.count() > 0:
             paginator = Paginator(
-                page_obj.articles.all(), page_obj.max_articles or 5)
+                page_obj.articles.all().order_by('-created_at'),
+                page_obj.max_articles or 5)
             page = request.GET.get('page')
 
             try:
@@ -44,8 +45,8 @@ def page_view(request, page, context=None):
     except Page.DoesNotExist:
         pass
 
-    extra_context = getattr(settings, 'WEBMUS_PAGE_CONTEXT', {}).get(
-        page, [])
+    extra_context = getattr(settings, 'WEBMUS_CONFIG', {}).get(
+        'pages', {}).get(page, {}).get('context', [])
     if isinstance(extra_context, dict):
         for key, val in extra_context.iteritems():
             if isinstance(val, basestring) and val.endswith(')'):

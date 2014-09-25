@@ -20,7 +20,7 @@ class Gig(models.Model):
         if self.start_time:
             return "%s, %s" % (
                 self.start_date.strftime(settings.SHORT_DATE_FORMAT),
-                self.start_time.strftime(settings.TIME_FORMAT))
+                self.start_time.strftime(settings.TIME_FORMAT).lower())
         else:
             return self.start_date.strftime(settings.SHORT_DATE_FORMAT)
 
@@ -29,7 +29,7 @@ class Gig(models.Model):
         if self.start_time:
             return "%s, %s" % (
                 self.start_date.strftime(settings.DATE_FORMAT),
-                self.start_time.strftime(settings.TIME_FORMAT))
+                self.start_time.strftime(settings.TIME_FORMAT).lower())
         else:
             return self.start_date.strftime(settings.DATE_FORMAT)
 

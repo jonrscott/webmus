@@ -10,7 +10,7 @@ def monthyear_to_str(month, year):
 
 def get_upcoming_gigs():
     return Gig.objects.filter(start_date__gte=date.today()).order_by(
-        'start_date', 'start_time')
+        'start_date', 'start_time')[:5]
 
 
 def get_gigs_by_month():

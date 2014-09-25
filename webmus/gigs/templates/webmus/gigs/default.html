@@ -1,0 +1,32 @@
+{% extends 'webmus/cms/managed_page.html' %}
+{% block page_content %}
+{{ block.super }}
+<div class="section gigs-section">
+    <div class="section-content">
+        <h2 class="top">Live Dates</h2>
+
+        <ul class="gigsbymonth">
+          {% for monthyear, monthgigs in gigs %}
+          <li class="gigmonth">
+            <h2>{{ monthyear }}</h2>
+            <ul class="gigsinmonth">
+              {% for gig in monthgigs %}
+              <li>
+                <span class="date">{{ gig.starts_at_short }}</span>
+                <span class="title">
+                  {% if gig.title %}{{ gig.title }}{% else %}
+                  {% if gig.artist %}{{ gig.artist }}{% endif %}{% endif %}
+                </span>
+                <span class="venue">{{ gig.venue }}</span>
+                {% if gig.description %}
+                <p>{{ gig.description }}</p>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock page_content %}

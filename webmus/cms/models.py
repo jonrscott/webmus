@@ -18,6 +18,12 @@ class BaseArticle(models.Model):
     class Meta:
         abstract = True
 
+    @property
+    def view_content(self):
+        if self.processed_content is None and self.content is not None:
+            self.save()
+        return self.processed_content
+
     def __unicode__(self):
         return self.title
 
