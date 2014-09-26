@@ -173,6 +173,8 @@ def process_local_links(soup, body):
     for link in body.find_all('a'):
         href = link['href'].strip()
         if href.endswith('.local'):
+            if '://' in href:
+                href = href.split('://')[1]
             page_name = href.rsplit('.', 1)[0]
             link['href'] = reverse(
                 'base_page', kwargs={'page': page_name})

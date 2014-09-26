@@ -12,7 +12,7 @@
             <ul class="gigsinmonth">
               {% for gig in monthgigs %}
               <li>
-                <span class="date">{{ gig.starts_at_short }}</span>
+                <span class="date">{{ gig.short_date_string }}</span>
                 <span class="title">
                   {% if gig.title %}{{ gig.title }}{% else %}
                   {% if gig.artist %}{{ gig.artist }}{% endif %}{% endif %}

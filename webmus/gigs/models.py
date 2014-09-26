@@ -34,6 +34,15 @@ class Gig(models.Model):
             return self.start_date.strftime(settings.DATE_FORMAT)
 
     @property
+    def ends_at_short(self):
+        if self.end_time:
+            return "%s, %s" % (
+                self.end_date.strftime(settings.SHORT_DATE_FORMAT),
+                self.end_time.strftime(settings.TIME_FORMAT).lower())
+        else:
+            return self.end_date.strftime(settings.SHORT_DATE_FORMAT)
+
+    @property
     def ends_at(self):
         if not self.end_date:
             return None
@@ -45,10 +54,22 @@ class Gig(models.Model):
             return self.end_date.strftime(settings.DATE_FORMAT)
 
     @property
+    def short_date_string(self):
+        if self.end_date:
+            if self.end_date.month != self.start_date.month:
+                return "%s - %s" % (self.starts_at_short, self.ends_at)
+            return "%s - %s" % (self.starts_at_short, self.ends_at_short)
+        return self.starts_at_short
+
+    @property
     def full_date_string(self):
         if self.end_date:
             return "%s - %s" % (self.starts_at, self.ends_at)
         return self.starts_at
+
+    @property
+    def display_title(self):
+        return self.title if self.title else self.artist
 
     def __unicode__(self):
         if self.title:
