@@ -2,7 +2,7 @@ from django.db import models
 
 from .helpers import (
     simplify_html,
-    create_implied_sections,
+    process_content_for_display,
 )
 
 
@@ -29,7 +29,7 @@ class BaseArticle(models.Model):
 
     def save(self, *args, **kwargs):
         self.content = simplify_html(self.content)
-        self.processed_content = create_implied_sections(self.content)
+        self.processed_content = process_content_for_display(self.content)
         super(BaseArticle, self).save(*args, **kwargs)
 
 

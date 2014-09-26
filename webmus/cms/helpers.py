@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 from bs4.element import NavigableString
 
+from django.core.urlresolvers import reverse
+
 
 def _wrap_things(soup, start, end, number):
     assert(start.parent == end.parent)
@@ -62,7 +64,7 @@ def html_fragment_processor(fn):
 
 @preprocess_html
 @html_fragment_processor
-def simplify_html(soup, body):
+def simplify_html(soup=None, body=None):
     """
     Cleanup dodgy Summernote HTML.
     Some day Summernote will do this already"""
@@ -92,6 +94,12 @@ def simplify_html(soup, body):
 
 
 @html_fragment_processor
+def process_content_for_display(soup, body):
+    body = create_implied_sections(soup, body)
+    body = process_local_links(soup, body)
+    return body
+
+
 def create_implied_sections(soup, body):
     """
     If a paragraph exists on its own containing just '---', then use that
@@ -158,4 +166,14 @@ def create_implied_sections(soup, body):
             body.append(
                 soup.new_tag('div', **{'class': 'section', 'id': 'section1'}))
 
+    return body
+
+
+def process_local_links(soup, body):
+    for link in body.find_all('a'):
+        href = link['href'].strip()
+        if href.endswith('.local'):
+            page_name = href.rsplit('.', 1)[0]
+            link['href'] = reverse(
+                'base_page', kwargs={'page': page_name})
     return body

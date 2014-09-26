@@ -89,6 +89,8 @@ def contact_view(request):
         form = ContactForm(request.POST, request=request)
         if form.is_valid():
             form.save()
+        else:
+            context['contact_form' ] = form
     else:
         context['contact_form'] = ContactForm(request=request)
 
