@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .models import MediaVideo
+from .models import MediaItem
 
-class VideoAdmin(admin.ModelAdmin):
+
+class MediaItemAdmin(admin.ModelAdmin):
     pass
 
 
-admin.site.register(MediaVideo, VideoAdmin)
+admin.site.register(MediaItem, MediaItemAdmin)

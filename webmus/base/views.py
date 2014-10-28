@@ -15,7 +15,6 @@ from ..contact.forms import ContactForm
 #from webmus.lib import render_to_pdf
 from webmus.cms.models import Page
 from webmus.links.models import LinkCategory
-from webmus.media.models import MediaVideo
 
 
 def page_view(request, page, context=None):
@@ -100,26 +99,6 @@ def contact_view(request):
 def links_view(request):
     return page_view(request, 'links', context={
         'categories': LinkCategory.objects.all().order_by('index')
-    })
-
-
-def discography_view(request):
-    from webmus.musicdata.helpers import get_albums_by_year
-    return page_view(request, 'discography', context={
-        'albums': get_albums_by_year(),
-    })
-
-
-def media_view(request):
-    return page_view(request, 'media', context={
-        'videos': MediaVideo.objects.all()
-    })
-
-
-def live_view(request):
-    from webmus.gigs.helpers import get_gigs_by_month
-    return page_view(request, 'live', context={
-        'gigs': get_gigs_by_month()
     })
 
 

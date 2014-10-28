@@ -6,7 +6,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 INSTALLED_APPS = (
-    #'sorl.thumbnail',
+    'easy_thumbnails',
 
     'webmus.cms',
     'webmus.base',
@@ -15,6 +15,7 @@ INSTALLED_APPS = (
     'webmus.musicdata',
     'webmus.media',
     'webmus.gigs',
+    'webmus.shop',
 )
 
 THUMBNAIL_SIZES = {

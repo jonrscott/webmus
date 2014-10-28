@@ -1,0 +1,57 @@
+{% extends 'webmus/cms/managed_page.html' %}
+{% load thumbnail %}
+{% block page_content %}
+{{ block.super }}
+<div class="section" id="section1">
+    <div class="section-content">
+        <form target="_self" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <p>Buy direct and pay securely with Paypal. Choose your items then click "View Cart" to continue.</p>
+          <input type="hidden" name="cmd" value="_cart">
+          <input type="hidden" name="business" value="webmus.shop_account">
+          <input type="hidden" name="return" value="{% url 'base_page' page='shop' %}">
+          <input type="hidden" name="shopping_url" value="{% url 'base_page' page='shop' %}">
+          <input type="image" src="https://www.paypal.com/en_GB/i/btn/btn_viewcart_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online.">
+          <input type="hidden" name="display" value="1">
+        </p>
+      </form>
+    </div>
+</div>
+
+{% for item in items %}
+<div class="section shop-section">
+    {% thumbnail item.image 'shop' as thumb %}
+    <div class="section-content" style="min-height: {{ thumb.height }}px">
+        <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.description }}</p>
+        <form target="_self" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            <div class="buy">
+                <span class="price">{{ item.price_str|safe }}</span>
+                <span class="shipping">+ shipping: </span>
+                <select name="shipping">
+                    {% for option in item.item_type.shipping_options.all %}
+                    <option value="{{ option.price_str_no_units }}">{{ option.name }} ({{ option.price_str|safe }})</option>
+                    {% endfor %}
+                </select>
+                <input type="image" class="button" src="https://www.paypal.com/en_GB/i/btn/btn_cart_SM.gif" name="submit" alt="PayPal - The safer, easier way to pay online.">
+                <input type="hidden" name="add" value="1">
+                <input type="hidden" name="cmd" value="_cart">
+                <input type="hidden" name="business" value="{{ webmus.shop_account }}">
+                <input type="hidden" name="item_name" value="{{ item.title }}">
+                <input type="hidden" name="item_number" value="{{ item.code }}">
+                <input type="hidden" name="amount" value="{{ item.price_str_no_units }}">
+                <input type="hidden" name="no_shipping" value="0">
+                <input type="hidden" name="no_note" value="1">
+                <input type="hidden" name="currency_code" value="{{ webmus.shop_currency }}">
+                <input type="hidden" name="lc" value="GB">
+                <input type="hidden" name="bn" value="PP-ShopCartBF">
+                <input type="hidden" name="return" value="{% url 'base_page' page='shop' %}">
+                <input type="hidden" name="shopping_url" value="{% url 'base_page' page='shop' %}">
+            </div>
+        </form>
+    </div>
+    <div class="clear"></div>
+</div>
+
+{% endfor %}
+{% endblock page_content %}

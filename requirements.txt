@@ -2,6 +2,6 @@ reportlab
 pisa
 html5lib
 pillow
-sorl-thumbnail
 beautifulsoup4
 django-summernote
+easy-thumbnails
