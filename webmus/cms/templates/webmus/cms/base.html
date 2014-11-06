@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <title>{% block head_title %}{{ webmus.site_name }}{% endblock %}</title>
+
+  {% block head_meta %}
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="description" content="{{ webmus.site_description }}">
+  <meta name="keywords" content="{{ webmus.site_keywords|join:"," }}">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0">
+  {% endblock %}
+
+  <link rel="home" href="http://{{ SITE_NAME }}/">
+
+  {% block head_style %}
+  <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>-->
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/screen.css">
+  {% endblock %}
+
+  {% block head_script %}
+  <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/jquery.min.js"></script>
+  {% comment %}
+  <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/jquery.colorbox-min.js"></script>
+  {% endcomment %}
+  <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/media.js"></script>
+  {% comment %}
+  <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/respond.min.js"></script>
+  {% endcomment %}
+  {% comment %}
+  <script type="text/javascript" language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+  {% endcomment %}
+  {% comment %}
+  <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/utils.js">
+  {% endcomment %}
+  </script>
+  {% endblock %}
+</head>
+
+<body id="{{ page_slug }}">
+
+{% block body %}
+<div id="doc">
+  <div id="hd" role="banner">
+    <div id="hdmain">
+      {% if pdf %}
+      <h1>{{ webmus.site_name }}</h1>
+      {% else %}
+      <h1 id="site-name">
+        <a rel="home" href="{% url 'home' %}">{{ webmus.site_name }}</a>
+      </h1>
+      <ul class="menubar">
+        {% block menu %}
+        {% for item in webmus.menu_items %}
+        <li id="menu_{{ item.slug }}"
+          {% if forloop.first %}class="first"{% endif %}
+          {% if forloop.last %}class="last"{% endif %}>
+          <a href="{% url 'base_page' page=item.slug %}">{{ item.title }}</a>
+        </li>
+        {% endfor %}
+        {% endblock %}
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+
+  <div id="bd" role="main" {% block wideclass %}{% endblock %}>
+  {% block layout %}
+    <div id="main"> 
+      <div class="content">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  {% endblock %}
+  </div> 
+</div>
+{% endblock body %}
+
+</body>
+</html>
