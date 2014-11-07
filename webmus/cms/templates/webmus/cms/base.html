@@ -41,7 +41,9 @@
 
 {% block body %}
 <div id="doc">
+  {% block doc %}
   <div id="hd" role="banner">
+    {% block header %}
     <div id="hdmain">
       {% if pdf %}
       <h1>{{ webmus.site_name }}</h1>
@@ -58,10 +60,11 @@
           <a href="{% url 'base_page' page=item.slug %}">{{ item.title }}</a>
         </li>
         {% endfor %}
-        {% endblock %}
+        {% endblock menu %}
       </ul>
       {% endif %}
     </div>
+    {% endblock header %}
   </div>
 
   <div id="bd" role="main" {% block wideclass %}{% endblock %}>
@@ -71,8 +74,9 @@
         {% block content %}{% endblock %}
       </div>
     </div>
-  {% endblock %}
-  </div> 
+  {% endblock layout %}
+  </div>
+  {% endblock doc %}
 </div>
 {% endblock body %}
 
