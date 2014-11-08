@@ -12,9 +12,8 @@ from django.core.paginator import (
 
 from ..contact.forms import ContactForm
 
-#from webmus.lib import render_to_pdf
+from webmus.lib import render_to_pdf
 from webmus.cms.models import Page
-from webmus.links.models import LinkCategory
 
 
 def page_view(request, page, context=None):
@@ -67,17 +66,16 @@ def page_view(request, page, context=None):
 
 
 def page_pdf_view(request, page, context=None):
-    pass
-    #context = context or {}
-    #template = 'page/%s.html' % page
-    #try:
-    #    return render_to_pdf(
-    #        template, {
-    #            'pagesize': 'A4',
-    #        }
-    #    )
-    #except TemplateDoesNotExist:
-    #    raise http.Http404()
+    context = context or {}
+    template = 'page/%s.html' % page
+    try:
+        return render_to_pdf(
+            template, {
+                'pagesize': 'A4',
+            }
+        )
+    except TemplateDoesNotExist:
+        raise http.Http404()
 
 
 def contact_view(request):
@@ -96,12 +94,7 @@ def contact_view(request):
     return page_view(request, 'contact', context=context)
 
 
-def links_view(request):
-    return page_view(request, 'links', context={
-        'categories': LinkCategory.objects.all().order_by('index')
-    })
-
-
+# DEPRECATED!
 def project_view(request, project=None, context={}):
     projects = settings.PROJECTS
     projects_dict = settings.PROJECTS_DICT

@@ -2,7 +2,6 @@
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'webmus.context_processors.config',
-    'webmus.context_processors.thumbnails',
 )
 
 INSTALLED_APPS = (
@@ -18,8 +17,11 @@ INSTALLED_APPS = (
     'webmus.shop',
 )
 
-THUMBNAIL_SIZES = {
-    'album': '60',
+THUMBNAIL_ALIASES = {
+    '': {
+        'album': {'size': (80, 0), 'crop': False},
+        'shop': {'size': (200, 0), 'crop': False},
+    },
 }
 
 SHORT_DATE_FORMAT = "%a %d"

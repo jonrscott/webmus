@@ -11,9 +11,3 @@ def config(request):
     menu_items.sort(key=lambda x: x['menu_order'])
     result['menu_items'] = menu_items
     return {'webmus': result}
-
-
-def thumbnails(request):
-    return dict(
-        ('thumbnail_' + key, val) for (key, val) in
-        settings.THUMBNAIL_SIZES.items())
