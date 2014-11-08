@@ -50,7 +50,7 @@ class MediaItem(models.Model):
         raise TypeError("Unsupported media type '%s'" % parts.netloc)
 
 
-class MediaHandler(MediaItem):
+class MediaHandler(object):
     def __init__(self, item, parts, query):
         self._item = item
         self._parts = parts
