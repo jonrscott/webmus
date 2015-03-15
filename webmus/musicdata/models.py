@@ -8,6 +8,9 @@ class Artist(models.Model):
     image = models.ImageField(upload_to='artistimages', blank=True)
     url = models.URLField(blank=True)
 
+    class Meta:
+        ordering = ['name']
+
     def __unicode__(self):
         return self.name
 
@@ -29,6 +32,9 @@ class Venue(models.Model):
     name = models.CharField(max_length=100)
     address_brief = models.CharField(max_length=100, blank=True)
     address_full = models.CharField(max_length=300, blank=True)
+
+    class Meta:
+        ordering = ['name']
 
     def __unicode__(self):
         if self.address_brief:

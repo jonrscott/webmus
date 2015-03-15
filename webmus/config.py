@@ -21,6 +21,7 @@ THUMBNAIL_ALIASES = {
     '': {
         'album': {'size': (80, 0), 'crop': False},
         'shop': {'size': (200, 0), 'crop': False},
+        'article_thumb': {'size': (150, 0), 'crop': False},
     },
 }
 

@@ -3,7 +3,7 @@
 <h2 class="page-title">{{ page_obj.title }}</h2>
 {% if page_obj.image %}
 {% with page_obj.image as img %}
-<img class="page-img" width="{{ img.width }}" height="{{ img.height }}"
+<img class="page-img" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}"
      alt="{{ page_obj.title }}">
 {% endwith %}
 {% endif %}
@@ -13,40 +13,6 @@
 {% endblock page_content %}
 </div>
 {% if articles %}
-<div class="section articles-section">
-    <div class="section-content">
-        {% for article in articles %}
-        <div class="article">
-            {% block article_content %}
-            <div class="article-header">
-                <span class="title">{{ article.title }}</span>
-                <span class="date">{{ article.created_at }}</span>
-            </div>
-            <div class="managed-content">
-            {{ article.content|safe }}
-            </div>
-            {% endblock article_content %}
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
-{% if articles.paginator.num_pages > 1 %}
-<div class="pagination">
-    <span class="step-links">
-        {% if contacts.has_previous %}
-            <a href="?page={{ articles.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
-        </span>
-
-        {% if contacts.has_next %}
-            <a href="?page={{ articles.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>
-{% endif %}
+{% include 'webmus/cms/articles_include.html' %}
 {% endif %}
 {% endblock content %}

@@ -4,8 +4,11 @@
 <div class="section gigs-section">
     <div class="section-content">
         <h2 class="top">Live Dates</h2>
-
+        {% if gigs %}
         {% include 'webmus/gigs/monthly-gigs.html' %}
+        {% else %}
+        <p>Check back soon for live dates.</p>
+        {% endif %}
     </div>
 </div>
 {% endblock page_content %}

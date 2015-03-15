@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="page-title">Blog</h2>
+{% if articles %}
+{% include 'webmus/cms/articles_include.html' %}
+{% else %}
+<div class="managed-content">
+{% block page_content %}
+{{ page_obj.view_content|safe }}
+{% endblock page_content %}
+</div>
+{% endif %}
+{% endblock content %}

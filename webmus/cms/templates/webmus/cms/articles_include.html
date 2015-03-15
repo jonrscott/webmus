@@ -1,0 +1,47 @@
+{% load thumbnail %}
+<div class="section articles-section">
+    <div class="section-content">
+        {% for article in articles %}
+        <div class="article">
+            <div class="article-header">
+                <span class="title">{{ article.title }}</span>
+                <span class="date">{{ article.created_at }}</span>
+            </div>
+            <div class="managed-content">
+            {% if article.image %}
+            {% with article.image as img %}
+            {% if article.thumbnail_image %}
+            {% thumbnail article.image 'article_thumb' as thumb %}
+            <a class="expand-thumbnail" href="#" data-img="{{ img.url }}" data-w="{{ img.width }}" data-h="{{ img.height }}">
+                <img class="article-img-thumb" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" alt="{{ article.title }} - click to view">
+            </a>
+            {% else %}
+            <img class="article-img" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{{ article.title }}"> 
+            {% endif %}
+            {% endwith %}
+            {% endif %}
+            {{ article.content|safe }}
+            </div>
+        </div>
+        <div style="clear: both"></div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if articles.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if contacts.has_previous %}
+            <a href="?page={{ articles.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
+        </span>
+
+        {% if contacts.has_next %}
+        <a href="?page={{ articles.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}

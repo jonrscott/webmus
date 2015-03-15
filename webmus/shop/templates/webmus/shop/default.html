@@ -29,7 +29,7 @@
                 <span class="price">{{ item.price_str|safe }}</span>
                 <span class="shipping">+ shipping: </span>
                 <select name="shipping">
-                    {% for option in item.item_type.shipping_options.all %}
+                    {% for option in item.shipping_options %}
                     <option value="{{ option.price_str_no_units }}">{{ option.name }} ({{ option.price_str|safe }})</option>
                     {% endfor %}
                 </select>

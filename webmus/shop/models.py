@@ -25,6 +25,7 @@ class ShopItemType(models.Model):
 
 
 class ShippingOption(models.Model, PriceMixin):
+    order = models.IntegerField(default=0, db_index=True)
     item_type = models.ForeignKey(
         ShopItemType, related_name='shipping_options')
     name = models.CharField(max_length=100)
@@ -41,7 +42,12 @@ class ShopItem(models.Model, PriceMixin):
     description = models.TextField()
     image = models.ImageField()
     price = models.IntegerField()       # pence
-    order = models.IntegerField(default=0)
+    order = models.IntegerField(default=0, db_index=True)
+    available = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.title
+
+    @property
+    def shipping_options(self):
+        return self.item_type.shipping_options.all().order_by('order')
