@@ -11,11 +11,11 @@
 {% endblock managed_image %}
 <div class="managed-content">
 {% block pre_content %}{% endblock pre_content %}
-{% if page_obj.view_content %}
 {% block page_content %}
+{% if page_obj.view_content %}
 {{ page_obj.view_content|safe }}
-{% endblock page_content %}
 {% endif %}
+{% endblock page_content %}
 {% block post_content %}{% endblock post_content %}
 </div>
 {% if articles %}
