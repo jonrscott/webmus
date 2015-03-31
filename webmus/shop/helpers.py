@@ -2,4 +2,4 @@ from .models import ShopItem
 
 
 def get_shopfront():
-    return ShopItem.objects.all().order_by('order')
+    return ShopItem.objects.filter(available=True).order_by('order')

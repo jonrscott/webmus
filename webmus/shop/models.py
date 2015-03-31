@@ -43,7 +43,7 @@ class ShopItem(models.Model, PriceMixin):
     image = models.ImageField()
     price = models.IntegerField()       # pence
     order = models.IntegerField(default=0, db_index=True)
-    available = models.BooleanField(default=True)
+    available = models.BooleanField(default=True, db_index=True)
 
     def __unicode__(self):
         return self.title
