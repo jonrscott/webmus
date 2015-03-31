@@ -1,18 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2 class="page-title">{{ page_obj.title }}</h2>
+{% block managed_image %}
 {% if page_obj.image %}
 {% with page_obj.image as img %}
 <img class="page-img" src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}"
      alt="{{ page_obj.title }}">
 {% endwith %}
 {% endif %}
+{% endblock managed_image %}
 <div class="managed-content">
+{% block pre_content %}{% endblock pre_content %}
+{% if page_obj.view_content %}
 {% block page_content %}
 {{ page_obj.view_content|safe }}
 {% endblock page_content %}
+{% endif %}
+{% block post_content %}{% endblock post_content %}
 </div>
 {% if articles %}
+{% if override_articles_include %}
+{% include override_articles_include %}
+{% else %}
 {% include 'webmus/cms/articles_include.html' %}
+{% endif %}
 {% endif %}
 {% endblock content %}
