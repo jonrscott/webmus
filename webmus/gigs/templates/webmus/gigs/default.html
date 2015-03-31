@@ -7,7 +7,7 @@
         {% if gigs %}
         {% include 'webmus/gigs/monthly-gigs.html' %}
         {% else %}
-        <p>Check back soon for live dates.</p>
+        {% include 'webmus/gigs/no-gigs.html' %}
         {% endif %}
     </div>
 </div>
