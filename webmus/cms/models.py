@@ -11,6 +11,7 @@ class BaseArticle(models.Model):
     title = models.CharField(max_length=100)
     image = models.ImageField(null=True, blank=True)
     thumbnail_image = models.BooleanField(default=False)
+    narrow = models.BooleanField(default=False)
     content = models.TextField(blank=True)
     processed_content = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
