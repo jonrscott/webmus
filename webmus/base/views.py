@@ -31,10 +31,10 @@ def page_view(request, page, context=None):
             paginator = Paginator(
                 page_obj.articles.filter(visible=True).order_by('-created_at'),
                 page_obj.max_articles or 5)
-            page = request.GET.get('page')
+            page_num = request.GET.get('page')
 
             try:
-                articles = paginator.page(page)
+                articles = paginator.page(page_num)
             except PageNotAnInteger:
                 articles = paginator.page(1)
             except EmptyPage:
