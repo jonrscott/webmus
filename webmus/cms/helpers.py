@@ -163,8 +163,9 @@ def create_implied_sections(soup, body):
         if len(all_things) > 0:
             _wrap_things(soup, all_things[0], all_things[-1], 1)
         # else:
-            # body.append(
-            #     soup.new_tag('div', **{'class': 'section', 'id': 'section1'}))
+        #     body.append(
+        #         soup.new_tag(
+        #             'div', **{'class': 'section', 'id': 'section1'}))
 
     return body
 
