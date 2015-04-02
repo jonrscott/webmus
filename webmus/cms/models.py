@@ -1,5 +1,6 @@
 from django.db import models
 
+from webmus.lib import sensible_title
 from .helpers import (
     simplify_html,
     process_content_for_display,
@@ -31,7 +32,7 @@ class BaseArticle(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.title = self.title.title()
+        self.title = sensible_title(self.title)
 
         if self.slug is None or self.slug.strip() == '':
             self.slug = self.title.lower().replace(' ', '')
