@@ -88,7 +88,7 @@ class MediaHandlerYoutube(MediaHandler):
 
     @property
     def thumbnail_url(self):
-        return "http://img.youtube.com/vi/%s/4.jpg" % self.key
+        return "http://img.youtube.com/vi/%s/0.jpg" % self.key
 
 
 class MediaHandlerVimeo(MediaHandler):

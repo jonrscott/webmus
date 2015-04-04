@@ -1,10 +1,12 @@
 (function() {
     var handle_youtube = function(width, height, item) {
-        var iframe = $(
-            '<iframe width="' + width + '" height="' + height +
-            '" src="//www.youtube.com/embed/' + item.data('key') +
-            '" frameborder="0" allowfullscreen></iframe>');
-        item.replaceWith(iframe);
+        var text = item.text();
+        var embed = '//www.youtube.com/embed/' + item.data('key');
+        var thumb = $(
+            '<a class="video-embed" href="' + embed + '" style="background-image: url(' + item.data('thumbnail') + ');"></a>')
+        thumb.colorbox({iframe: true, innerWidth: 640, innerHeight: 390});
+        thumb.append($('<span>' + text + '</span>'));
+        item.replaceWith(thumb);
     };
 
     var handle_vimeo = function(width, height, item) {

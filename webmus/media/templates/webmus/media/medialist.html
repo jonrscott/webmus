@@ -1,8 +1,8 @@
-        <ul class="media-list">
-            {% for item in media %}
-            <li class="media-item {% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
-                <a href="{{ item.url }}" data-key="{{ item.key }}" data-thumbnail="{{ item.thumbnail_url }}" data-source="{{ item.source }}" target="_blank">{{ item }}</a>
-            </li>
-            {% endfor %}
-            <div class="clear"></div>
-        </ul>
+<ul class="media-list">
+    {% for item in media %}
+    <li class="media-item {% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+        <a href="{{ item.url }}" data-key="{{ item.key }}" data-thumbnail="{{ item.thumbnail_url }}" data-source="{{ item.source }}" target="_blank">{{ item }}</a>
+    </li>
+    {% endfor %}
+    <div class="clear"></div>
+</ul>
