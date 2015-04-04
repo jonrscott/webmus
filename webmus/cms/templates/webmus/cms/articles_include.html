@@ -3,6 +3,10 @@
     <div class="section-content">
         {% for article in articles %}
         <div class="article{% if article.narrow %} narrow{% endif %}">
+            <div class="article-header">
+                <span class="title">{{ article.title }}</span>
+                <span class="date">{{ article.created_at }}</span>
+            </div>
             <div class="managed-content">
             {% if article.image %}
             {% with article.image as img %}
@@ -16,14 +20,9 @@
             {% endif %}
             {% endwith %}
             {% endif %}
-            <div class="article-header">
-                <span class="title">{{ article.title }}</span>
-                <span class="date">{{ article.created_at }}</span>
-            </div>
             {{ article.content|safe }}
             </div>
         </div>
-        <div style="clear: both"></div>
         {% endfor %}
     </div>
 </div>
