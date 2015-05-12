@@ -30,7 +30,7 @@ def page_view(request, page, context=None):
         if page_obj.articles.count() > 0:
             paginator = Paginator(
                 page_obj.articles.filter(visible=True).order_by('-created_at'),
-                page_obj.max_articles or 5)
+                page_obj.max_articles or 6)
             page_num = request.GET.get('page')
 
             try:
