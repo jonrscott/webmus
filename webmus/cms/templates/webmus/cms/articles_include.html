@@ -27,14 +27,20 @@
     </div>
 </div>
 
+{% if articles.paginator.num_pages > 1 %}
 <div class="pagination">
     <span class="step-links">
-            <a class="prev" href="?page=1">previous</a>
+        {% if articles.has_previous %}
+            <a class="prev" href="?page={{ articles.previous_page_number }}">previous</a>
+        {% endif %}
 
         <span class="current">
-            Page {{ articles.number }} of {{ articles.paginator.num_pages }}
+            Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
         </span>
 
-        <a class="next" href="?page=1">next</a>
+        {% if articles.has_next %}
+        <a class="next" href="?page={{ articles.next_page_number }}">next</a>
+        {% endif %}
     </span>
 </div>
+{% endif %}
