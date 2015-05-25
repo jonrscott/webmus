@@ -29,12 +29,12 @@ SHORT_DATE_FORMAT = "%a %d"
 DATE_FORMAT = "%d %b %y"
 TIME_FORMAT = "%I:%M%p"
 
-#PROJECTS = (
-#    {
-#        'name': "My Project",
-#        'slug': 'myproject',
-#    },
-#)
+# PROJECTS = (
+#     {
+#         'name': "My Project",
+#         'slug': 'myproject',
+#     },
+# )
 PROJECTS = ()
 
 PROJECTS_DICT = dict((p['slug'], p) for p in PROJECTS)
