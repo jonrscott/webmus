@@ -21,11 +21,40 @@
     };
 
     var handle_vimeo = function(width, height, item) {
-        var iframe = $(
-            '<iframe width="' + width + '" height="' + height +
-            '" src="//player.vimeo.com/video/' + item.data('key') +
-            '" frameborder="0" allowfullscreen></iframe>');
-        item.replaceWith(iframe);
+        var text = item.text();
+        var key = item.data('key');
+        var meta_url = 'http://vimeo.com/api/v2/video/' + key + '.json';
+        // TODO: allowfullscreen
+        var embed = '//player.vimeo.com/video/' + key;
+        var thumb = $('<a class="video-embed" href="' + embed + '">');
+        var par = item.parent().parent();
+
+        thumb.click(function(ev) {
+            ev.preventDefault();
+            $.colorbox({
+                href: thumb.attr('href'),
+                iframe: true,
+                innerWidth: par.width(),
+                innerHeight: par.width() * 0.61
+            });
+        });
+
+        thumb.append($('<span>' + text + '</span>'));
+        item.replaceWith(thumb);
+
+        // need a Vimeo API call to get the thumbnail url
+        // TODO: cache this in the backend
+        $.ajax({
+            type: 'GET',
+            url: meta_url,
+            dataType: 'jsonp',
+            jsonp: 'callback',
+            success: function(data) {
+                thumb.css({
+                    'background-image': 'url(' + data[0].thumbnail_large + ')'
+                });
+            }
+        });
     };
 
     var handle_soundcloud = function(width, height, item) {
