@@ -4,7 +4,18 @@
         var embed = '//www.youtube.com/embed/' + item.data('key');
         var thumb = $(
             '<a class="video-embed" href="' + embed + '" style="background-image: url(' + item.data('thumbnail') + ');"></a>')
-        thumb.colorbox({iframe: true, innerWidth: 640, innerHeight: 390});
+        var par = item.parent().parent();
+
+        thumb.click(function(ev) {
+            ev.preventDefault();
+            $.colorbox({
+                href: thumb.attr('href'),
+                iframe: true,
+                innerWidth: par.width(),
+                innerHeight: par.width() * 0.61
+            });
+        });
+
         thumb.append($('<span>' + text + '</span>'));
         item.replaceWith(thumb);
     };
