@@ -26,7 +26,7 @@
         var meta_url = 'http://vimeo.com/api/v2/video/' + key + '.json';
         // TODO: allowfullscreen
         var embed = '//player.vimeo.com/video/' + key;
-        var thumb = $('<a class="video-embed" href="' + embed + '">');
+        var thumb = $('<a class="video-embed" style="background-image: url(/static/webmus/media/thumbnail.png);" href="' + embed + '">');
         var par = item.parent().parent();
 
         thumb.click(function(ev) {
