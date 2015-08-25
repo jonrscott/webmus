@@ -4,6 +4,9 @@ from django_summernote.admin import SummernoteModelAdmin
 from .models import Page, Article
 
 
+SummernoteModelAdmin = admin.ModelAdmin
+
+
 class BaseArticleAdmin(SummernoteModelAdmin):
     exclude = ('slug', 'processed_content',)
 

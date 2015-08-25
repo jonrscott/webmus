@@ -7,9 +7,9 @@
         <form target="_self" action="https://www.paypal.com/cgi-bin/webscr" method="post">
         <p>Buy direct and pay securely with Paypal. Choose your items then click "View Cart" to continue.</p>
           <input type="hidden" name="cmd" value="_cart">
-          <input type="hidden" name="business" value="webmus.shop_account">
-          <input type="hidden" name="return" value="{% url 'base_page' page='shop' %}">
-          <input type="hidden" name="shopping_url" value="{% url 'base_page' page='shop' %}">
+          <input type="hidden" name="business" value="{{ webmus.shop_account }}">
+          <input type="hidden" name="return" value="{{ shop_uri }}">
+          <input type="hidden" name="shopping_url" value="{{ shop_uri }}">
           <input type="image" src="https://www.paypal.com/en_GB/i/btn/btn_viewcart_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online.">
           <input type="hidden" name="display" value="1">
         </p>

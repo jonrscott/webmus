@@ -1,6 +1,7 @@
 from .models import Album
 
-def get_albums_by_year():
+
+def get_albums_by_year(request):
     result = []
     currentyear = None
     currentyearalbums = []

@@ -34,6 +34,10 @@ class ShippingOption(models.Model, PriceMixin):
     def __unicode__(self):
         return "%s - %s" % (self.item_type, self.name)
 
+    @property
+    def price_str_no_units(self):
+        return "%d.%.2d" % (self.price / 100, self.price % 100)
+
 
 class ShopItem(models.Model, PriceMixin):
     item_type = models.ForeignKey(ShopItemType)
@@ -51,3 +55,7 @@ class ShopItem(models.Model, PriceMixin):
     @property
     def shipping_options(self):
         return self.item_type.shipping_options.all().order_by('order')
+
+    @property
+    def price_str_no_units(self):
+        return "%d.%.2d" % (self.price / 100, self.price % 100)

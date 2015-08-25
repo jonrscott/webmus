@@ -8,12 +8,12 @@ def monthyear_to_str(month, year):
     return d.strftime("%B %Y")
 
 
-def get_upcoming_gigs():
+def get_upcoming_gigs(request):
     return Gig.objects.filter(start_date__gte=date.today()).order_by(
         'start_date', 'start_time')[:5]
 
 
-def get_gigs_by_month():
+def get_gigs_by_month(request):
     result = []
     currentmonthyear = None
     currentmonthgigs = []

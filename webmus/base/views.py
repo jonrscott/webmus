@@ -54,7 +54,7 @@ def page_view(request, page, context=None):
                 module = import_module(module)
                 val = getattr(module, fn)
             if callable(val):
-                val = val(*args)
+                val = val(request, *args)
             context[key] = val
     try:
         return render_to_response(
