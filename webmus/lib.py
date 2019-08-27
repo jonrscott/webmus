@@ -1,13 +1,26 @@
 import cStringIO as StringIO
 import ho.pisa as pisa
 from django.template.loader import get_template
-from django.template import Context
+from django.template import Context, TemplateDoesNotExist
 from django.http import HttpResponse
 from cgi import escape
 
 
-def render_to_pdf(template_src, context_dict):
-    template = get_template(template_src)
+def render_to_pdf(template_src, context_dict, context_instance=None):
+    if not isinstance(template_src, (str, unicode)):
+        template = None
+        while len(template_src):
+            tmpl = template_src[0]
+            template_src = template_src[1:]
+            try:
+                template = get_template(tmpl)
+            except TemplateDoesNotExist:
+                pass
+        if template is None:
+            raise TemplateDoesNotExist(tmpl)
+    else:
+        template = get_template(template_src)
+
     context_dict.update(pdf=True)
     context = Context(context_dict)
     html = template.render(context)

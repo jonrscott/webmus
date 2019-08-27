@@ -16,7 +16,7 @@ from webmus.lib import render_to_pdf
 from webmus.cms.models import Page
 
 
-def page_view(request, page, context=None):
+def page_view(request, page, context=None, pdf=False):
     context = context or {}
     templates = ['page/%s.html' % page,
                  'webmus/%s/default.html' % page]
@@ -57,7 +57,8 @@ def page_view(request, page, context=None):
                 val = val(request, *args)
             context[key] = val
     try:
-        return render_to_response(
+        render = render_to_pdf if pdf is True else render_to_response
+        return render(
             templates, context,
             context_instance=RequestContext(request)
         )
@@ -66,16 +67,7 @@ def page_view(request, page, context=None):
 
 
 def page_pdf_view(request, page, context=None):
-    context = context or {}
-    template = 'page/%s.html' % page
-    try:
-        return render_to_pdf(
-            template, {
-                'pagesize': 'A4',
-            }
-        )
-    except TemplateDoesNotExist:
-        raise http.Http404()
+    return page_view(request, page, context=context, pdf=True)
 
 
 def contact_view(request):
