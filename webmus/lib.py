@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from cgi import escape
 
 
-def render_to_pdf(template_src, context_dict):
+def render_to_pdf(template_src, context_dict, context_instance=None):
     template = get_template(template_src)
     context_dict.update(pdf=True)
     context = Context(context_dict)
