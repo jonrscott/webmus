@@ -16,7 +16,7 @@ class Artist(models.Model):
 
 
 class Album(models.Model):
-    artist = models.ForeignKey(Artist)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True)
     label = models.CharField(max_length=100, blank=True)
     year = models.IntegerField(default=lambda: datetime.now().year)

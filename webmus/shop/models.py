@@ -27,7 +27,8 @@ class ShopItemType(models.Model):
 class ShippingOption(models.Model, PriceMixin):
     order = models.IntegerField(default=0, db_index=True)
     item_type = models.ForeignKey(
-        ShopItemType, related_name='shipping_options')
+        ShopItemType, related_name='shipping_options',
+        on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     price = models.IntegerField()       # pence
 
@@ -40,7 +41,7 @@ class ShippingOption(models.Model, PriceMixin):
 
 
 class ShopItem(models.Model, PriceMixin):
-    item_type = models.ForeignKey(ShopItemType)
+    item_type = models.ForeignKey(ShopItemType, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     code = models.CharField(max_length=20)
     description = models.TextField()

@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from bs4.element import NavigableString
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 def _wrap_things(soup, start, end, number):

@@ -1,6 +1,6 @@
 from importlib import import_module
 
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render, redirect
 from django.template import RequestContext, TemplateDoesNotExist
 from django import http
 from django.conf import settings
@@ -46,8 +46,8 @@ def page_view(request, page, context=None, pdf=False):
     extra_context = getattr(settings, 'WEBMUS_CONFIG', {}).get(
         'pages', {}).get(page, {}).get('context', [])
     if isinstance(extra_context, dict):
-        for key, val in extra_context.iteritems():
-            if isinstance(val, basestring) and val.endswith(')'):
+        for key, val in extra_context.items():
+            if isinstance(val, str) and val.endswith(')'):
                 base, args = val[:-1].rsplit('(', 1)
                 args = [x.strip() for x in args.split(',') if len(x.strip())]
                 module, fn = base.rsplit('.', 1)
@@ -57,10 +57,9 @@ def page_view(request, page, context=None, pdf=False):
                 val = val(request, *args)
             context[key] = val
     try:
-        render = render_to_pdf if pdf is True else render_to_response
-        return render(
-            templates, context,
-            context_instance=RequestContext(request)
+        render_fn = render_to_pdf if pdf is True else render
+        return render_fn(
+            request, templates, context,
         )
     except TemplateDoesNotExist:
         raise http.Http404()
@@ -95,7 +94,7 @@ def project_view(request, project=None, context={}):
         return redirect('base_project', project=projects[0]['slug'])
 
     if project and project not in projects_dict:
-        print "NO PROJECT!"
+        print("NO PROJECT!")
         raise http.Http404("Project '%s' not found" % project)
     template = 'projects/%s.html' % project
     context.update(
@@ -104,10 +103,9 @@ def project_view(request, project=None, context={}):
         projects=projects
     )
     try:
-        return render_to_response(
-            template, context,
-            context_instance=RequestContext(request)
+        return render(
+            request, template, context,
         )
     except TemplateDoesNotExist:
-        print "NO TEMPLATE! %s" % template
+        print("NO TEMPLATE! %s" % template)
         raise http.Http404()

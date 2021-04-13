@@ -10,7 +10,7 @@ class UploadedFileTag(models.Model):
 
 class UploadedFile(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    tag = models.ForeignKey(UploadedFileTag, blank=True, null=True)
+    tag = models.ForeignKey(UploadedFileTag, blank=True, null=True, on_delete=models.CASCADE)
     filename = models.CharField(max_length=100)
     description = models.CharField(max_length=300, blank=True)
     image = models.ImageField(upload_to='fileimages', blank=True)

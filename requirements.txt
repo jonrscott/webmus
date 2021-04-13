@@ -1,5 +1,6 @@
-reportlab<3
-pisa
+reportlab
+mysqlclient
+xhtml2pdf
 html5lib
 pillow
 beautifulsoup4

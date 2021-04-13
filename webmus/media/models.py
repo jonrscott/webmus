@@ -1,4 +1,4 @@
-from urlparse import (
+from urllib.parse import (
     parse_qs,
     urlsplit,
 )
@@ -21,8 +21,8 @@ size?
 
 
 class MediaItem(models.Model):
-    artist = models.ForeignKey(Artist, blank=True, null=True)
-    venue = models.ForeignKey(Venue, blank=True, null=True)
+    artist = models.ForeignKey(Artist, blank=True, null=True, on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, blank=True, null=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=300, blank=True, null=True)
     url = models.CharField(max_length=200)

@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='article',
             name='page',
-            field=models.ForeignKey(related_name=b'articles', to='cms.Page'),
+            field=models.ForeignKey(related_name=b'articles', to='cms.Page', on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

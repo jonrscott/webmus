@@ -1,20 +1,33 @@
-import cStringIO as StringIO
-import ho.pisa as pisa
+import io
+from xhtml2pdf import pisa
 from django.template.loader import get_template
-from django.template import Context
+from django.template import Context, TemplateDoesNotExist
 from django.http import HttpResponse
-from cgi import escape
+from html import escape
 
 
-def render_to_pdf(template_src, context_dict, context_instance=None):
-    template = get_template(template_src)
+def render_to_pdf(request, template_src, context_dict):
+    if not isinstance(template_src, (str, unicode)):
+        template = None
+        while len(template_src):
+            tmpl = template_src[0]
+            template_src = template_src[1:]
+            try:
+                template = get_template(tmpl)
+            except TemplateDoesNotExist:
+                pass
+        if template is None:
+            raise TemplateDoesNotExist(tmpl)
+    else:
+        template = get_template(template_src)
+
     context_dict.update(pdf=True)
     context = Context(context_dict)
     html = template.render(context)
-    result = StringIO.StringIO()
+    result = io.StringIO()
 
-    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")), result)
-    if not pdf.err:
+    status = pisa.CreatePDF(io.StringIO(html.encode("UTF-8")), dest=result)
+    if not status.err:
         return HttpResponse(result.getvalue(), content_type='application/pdf')
     return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
 

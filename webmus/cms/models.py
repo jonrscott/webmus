@@ -50,5 +50,5 @@ class Article(BaseArticle):
     class Meta:
         ordering = ['page', 'slug']
 
-    page = models.ForeignKey(Page, related_name='articles')
+    page = models.ForeignKey(Page, related_name='articles', on_delete=models.CASCADE)
     visible = models.BooleanField(default=True)

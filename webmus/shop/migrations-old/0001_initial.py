@@ -52,13 +52,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='shopitem',
             name='item_type',
-            field=models.ForeignKey(to='shop.ShopItemType'),
+            field=models.ForeignKey(to='shop.ShopItemType', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='shippingoption',
             name='item_type',
-            field=models.ForeignKey(related_name=b'shipping_options', to='shop.ShopItemType'),
+            field=models.ForeignKey(related_name=b'shipping_options', to='shop.ShopItemType', on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print "Creating missing pages"
-        for slug, config in settings.WEBMUS_CONFIG['pages'].iteritems():
+        for slug, config in settings.WEBMUS_CONFIG['pages'].items():
             try:
                 Page.objects.get(slug=slug)
                 print " - %s already exists" % slug
